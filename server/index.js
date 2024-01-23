@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+const mysql = require('mysql2')
 const express = require('express');
 const cors = require('cors')
 const PORT = 3000;
@@ -13,9 +14,24 @@ let db
     db = await connectWithRetry();
     console.log('db connection made')
     app.listen(PORT, () => {
-        console.log(`Server is running on ${PORT}`)
+        console.log(`API Server is running`)
     })
 })();
+// const dbConfig = {
+//     host: process.env.DB_HOST,
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_DATABASE_NAME
+// }
+// let db
+// try {
+//     db = mysql.createConnection(dbConfig);
+// } catch (err) {
+//     console.log("DB ERROR: ", err)
+// }
+// app.listen(PORT, () => {
+//     console.log(`API Server is running`)
+// })
 
 // Route to get all posts
 app.get("/api", (req, res) => {

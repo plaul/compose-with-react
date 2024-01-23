@@ -11,6 +11,10 @@ services:
       - DB_HOST=db
       - DB_USER=root
       - DB_PASSWORD=$MYSQL_ROOT_PASSWORD
+    depends_on:
+      db:
+        condition: service_healthy
+
   db:
     container_name: mysql
     image: mysql:8.0.34
@@ -23,6 +27,14 @@ services:
     volumes:
       - ./data:/var/lib/mysql # for data
       - ./server/config/init.sql:/docker-entrypoint-initdb.d/init.sql
+     
+      
+   # This healthcheck will ensure that the mysql service is started before the api service starts
+    healthcheck:
+      #test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
 
   reactclient:
     container_name: reactclient
